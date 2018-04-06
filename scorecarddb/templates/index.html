@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>ScorecardDB | AQ Analyst</title>{% endblock %}
+
+{% block main %}
+<main>
+    <h1>AccuQuest DE Database</h1>
+    
+    {% if cards %}
+    <table>
+        <tr>
+            <th></th>
+            <th>DE #</th>
+            <th>Practitioner</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Office</th>
+            <th>Patient</th>
+            <th>Sale Made</th>
+            <th>DE Score</th>
+            <th>Reviewer</th>
+        </tr>
+    {% for card in cards %}
+        <tr>
+            <td><a href="{{ card.get_another_absolute_url }}">X</a></td>
+            <td><a href="{{ card.get_absolute_url }}">{{ forloop.counter }}</a></td>
+            <td>{{ card.practitioner }}</td>
+            <td>{{ card.date }}</td>
+            <td>{{ card.time }}</td>
+            <td>{{ card.location }}</td>
+            <td>{{ card.patient_name }}</td>
+            <td>{{ card.sale_made }}</td>
+            <td>{{ card.total_score }}%</td>
+            <td>{{ card.reviewer }}</td>
+        </tr>
+    {% endfor %}
+    {% else %}
+    <p>There are no scorecards in this database!!</p>
+    {% endif %}
+    </table>
+</main>
+{% endblock %}

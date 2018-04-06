@@ -1,0 +1,77 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>Company Wide Statistics | AQ Analyst</title>{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Section', 'Score', { type:'string', role: 'annotation' }],
+            ['Intro', {{ avg_intro_score }}, 'color: red'],
+            ['Counseling', {{ avg_ce_score }}, 'Hello'],
+            ['FVT', {{ avg_fvt_score }}, 'Hello'],
+            ['Audiogram', {{ avg_audio_score }}, 'Hello'],
+            ['Recommendations', {{ avg_pr_score }}, 'Hello'],
+            ['Comm Basics', {{ avg_comm_score }}, 'Hello'],
+            ['Professional', {{ avg_pro_score }}, 'Hello'],
+            ['Emotionally Connect', {{ avg_emo_score }}, 'Hello']
+        ]);
+
+        var options = {
+                title: 'Average Score By Section',
+                annotations : {
+                    alwaysOutside: true,
+                    textStyle: {
+                        fontSize: 10
+                    }
+                },
+                legend: {
+                    position:'none'
+                },
+                //chartArea: { top: 100 },
+                vAxis: {
+                    viewWindow:{
+                        max:100,
+                        min:0,
+                    },
+                    //ticks: [0,10,20,30,40,50,60,70,80,90,100],
+                }
+                //vAxis: { ticks: [10,20,30,40,50,60,70,80,90,100] }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('DE_Stats'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+</script>
+{% endblock %}
+
+{% block main %}
+<main>
+    <h1>Companywide Statistics</h1>
+
+    <p>Total Average DE Score: {{ avg_total_score }}%</p>
+    
+    <p>Top 5 practitioners</p>
+    <ol>
+    {% for item in topFive %}
+        <li>{{ item.practitioner_first_name }} {{ item.practitioner_last_name }}: {{ item.Average_Score }}%</li>
+    {% endfor %}
+    </ol>
+    
+    <p>Bottom 5 practitioners</p>
+    <ol>
+    {% for item in bottomFive %}
+        <li>{{ item.practitioner_first_name }} {{ item.practitioner_last_name }}: {{ item.Average_Score }}%</li>
+    {% endfor %}
+    </ol>
+    
+    <div id='DE_Stats' style="width: 800px; height: 500px; margin: 50px"></div>
+    
+    <a href='' onclick='window.print()'>Select "Save as PDF"</a>
+</main>
+{% endblock %}

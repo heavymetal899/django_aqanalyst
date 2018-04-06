@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>Practitioner List | AQ Analyst</title>{% endblock %}
+
+{% block main %}
+<main>
+    <p>Trainees: </p>
+    {% if trainees %}
+    <ol>
+    {% for trainee in trainees %}
+        <li><a href="{{ trainee.get_absolute_url }}">{{ trainee.practitioner_first_name }} {{ trainee.practitioner_last_name }}</a></li>
+    {% endfor %}
+    {% else %}
+        <li>There are currently no trainees.</li>
+    {% endif %}
+    </ol>
+    
+    <p>Current Employees: </p>
+    <ol>
+    {% for current in currents %}
+        <li><a href="{{ current.get_absolute_url }}">{{ current.practitioner_first_name }} {{ current.practitioner_last_name }}</a></li>
+    {% endfor %}
+    </ol>
+    
+    <p>Terminated Employees: </p>
+    <ol>
+    {% for terminate in terminates %}
+        <li><a href="{{ terminate.get_absolute_url }}">{{ terminate.practitioner_first_name }} {{ terminate.practitioner_last_name }}</a></li>
+    {% endfor %}
+    </ol>
+</main>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>Delete Scorecard | AQ Analyst</title>{% endblock %}
+
+{% block main %}
+
+<h1>Delete Scorecard</h1>
+
+<p>Are you sure you want to delete the following scorecard?: {{ scorecard.practitioner }}/ {{ scorecard.date }}/ {{ scorecard.time }}?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" action="" value="Yes, delete." />
+</form>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>Practitioner List | AQ Analyst</title>{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', {'packages':['bar', 'gauge', 'corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var barData = google.visualization.arrayToDataTable([
+            ['Section', 'Score'],
+            ['Intro', {{ avg_intro_score }}],
+            ['Counseling', {{ avg_ce_score }}],
+            ['FVT', {{ avg_fvt_score }}],
+            ['Audiogram', {{ avg_audio_score }}],
+            ['Recommendations', {{ avg_pr_score }}],
+            ['Comm Basics', {{ avg_comm_score }}],
+            ['Professional', {{ avg_pro_score }}],
+            ['Emotionally Connect', {{ avg_emo_score }}]
+        ]);
+
+        var barOptions = {
+                title: 'Average Score By Section',
+                legend: {
+                    position:'none'
+                },
+                vAxis: {
+                    viewWindow:{
+                        max:100,
+                        min:0,
+                    }
+                }
+        };
+
+        var gaugeData = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['Avg Score', {{ avg_total_score }}]
+        ]);
+
+        var gaugeOptions = {
+            width: 400, height: 120,
+            greenFrom: 70, greenTo: 100,
+            yellowFrom:50, yellowTo: 70,
+            redFrom: 0, redTo: 50,
+            minorTicks: 5
+        };
+        
+        var lineData = google.visualization.arrayToDataTable([
+            ['Date', 'Score'],
+            {% for card in cards %}
+            ['{{ card.date}}', {{ card.total_score }}],
+            {% endfor %}
+        ]);
+
+        var lineOptions = {
+            title: 'Company Performance',
+            curveType: 'none',
+            legend: { position: 'bottom' },
+            vAxis: {
+                viewWindow:{
+                    max:100,
+                    min:0,
+                }
+            }
+        };
+
+        var lineChart = new google.visualization.LineChart(document.getElementById('DE_Chart'));
+
+        lineChart.draw(lineData, lineOptions);
+        
+        var barChart = new google.charts.Bar(document.getElementById('DE_Stats'));
+
+        barChart.draw(barData, google.charts.Bar.convertOptions(barOptions));
+        
+        var gaugeChart = new google.visualization.Gauge(document.getElementById('avg_score_chart'));
+
+        gaugeChart.draw(gaugeData, gaugeOptions);
+    }
+</script>
+{% endblock %}
+
+{% block main %}
+<main>
+
+    <h1>{{ name.practitioner_first_name }} {{ name.practitioner_last_name }}'s Statistics</h1>
+    
+    <div id='avg_score_chart' style="margin: 50px"></div>
+    
+    <div id='DE_Stats' style="width: 800px; height: 500px; margin: 50px"></div>
+    
+    <div id='DE_Chart' style="width: 800px; height: 500px; margin: 50px"></div>
+    
+    <a href='' onclick='window.print()'>Select "Save as PDF"</a>
+</main>
+{% endblock %}

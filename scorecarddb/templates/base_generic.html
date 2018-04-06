@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        {% block title %}<title>AQ Analyst Placeholder</title>{% endblock %}
+        
+        <!-- {% load static %} -->
+        <!-- CSS possibly make block? -->
+        {% block javascript %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <!-- AQ logo/href to index (will have to load static)-->
+            <!-- Page header -->
+        </header>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'scorecard_form' %}">New Scorecard</a>
+            <a href="{% url 'comp_stats' %}">Total Stats</a>
+            <a href="{% url 'practitioner_list' %}">Practitioner Stats</a>
+            {% if user.is_authenticated %}
+                {{ user.get_username }}: <a href="{% url 'logout'%}">Logout</a>
+            {% else %}
+                <a href="{% url 'login'%}">Login</a>
+            {% endif %}
+        </nav>
+        {% block main %}<main>Place holder!!!</main>{% endblock %}
+        <footer>
+            <ul id="footer-list">
+                <li>&copy;2017 AccuQuest Hearing Centers</li>
+                <li>Last Updated: 4/3/2019</li>
+                <li><a href="mailto:stephen.ellison@accuquest.net?subject=Issue%20Inquiry">Report An Issue</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>

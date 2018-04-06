@@ -1,0 +1,1025 @@
+{% extends "base_generic.html" %}
+
+{% block title %}<title>New Scorecard | AQ Analyst</title>{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    function indexChecker(index) {
+        if(index == 1) {
+            index++;
+        }
+        
+        return index;
+    }
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart(id) {
+        var total = 0;
+        var score = 0;
+        var good = 100;
+        var bad = 0;
+        
+        if (id == 'intro_pie' || id == 'total_pie') {
+            total = 19;
+            score += document.getElementById("{{ form.open_state_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.pain_points_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.verb_COSI_score.id_for_label }}").selectedIndex) + indexChecker(document.getElementById("{{ form.sum_val_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.commitment_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.last_test_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.causes_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'intro_pie') {
+                document.getElementById("{{ form.intro_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'c/e_pie' || id == 'total_pie') {
+            total = 17;
+            score += document.getElementById("{{ form.anatomy_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.clinical_study_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.progressive_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.maintain_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.story_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.otoscope_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'c/e_pie') {
+                document.getElementById("{{ form.ce_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'fvt_pie' || id == 'total_pie') {
+            if (document.getElementById("{{ form.third_party.id_for_label }}").value == "Yes") {
+                total = 9;
+                score += document.getElementById("{{ form.FVT_third_score.id_for_label }}").selectedIndex;
+            }
+            else {
+                total = 6;
+            }
+            
+            score += document.getElementById("{{ form.FVT_exp_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.FVT_results_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'fvt_pie') {
+                document.getElementById("{{ form.fvt_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'audio_pie' || id == 'total_pie') {
+            total = 11;
+            score += document.getElementById("{{ form.explain_audio_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.normal_hearing_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.ask_chart_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.recommit_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'audio_pie') {
+                document.getElementById("{{ form.audio_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'p/r_pie' || id == 'total_pie') {
+            total = 32;
+            score += document.getElementById("{{ form.bad_good_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.notions_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.objections_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.pick_two_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.style_cost_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.style_fitting_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.backup_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.tech_fitting_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.tech_levels_score.id_for_label }}").selectedIndex + indexChecker(document.getElementById("{{ form.appropriate_score.id_for_label }}").selectedIndex) + indexChecker(document.getElementById("{{ form.sep_rec_score.id_for_label }}").selectedIndex) + document.getElementById("{{ form.fight_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'p/r_pie') {
+                document.getElementById("{{ form.pr_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'comm_pie' || id == 'total_pie') {
+            total = 24;
+            score += document.getElementById("{{ form.questions_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.restate_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.validation_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.body_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.tone_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.words_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.transitions_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.involvement_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'comm_pie') {
+                document.getElementById("{{ form.comm_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'pro_pie' || id == 'total_pie') {
+            total = 9;
+            score += document.getElementById("{{ form.authority_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.rapport_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.cred_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'pro_pie') {
+                document.getElementById("{{ form.pro_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+        
+        if (id == 'emo_pie' || id == 'total_pie') {
+            if (document.getElementById("{{ form.third_party.id_for_label }}").value == "Yes") {
+                total = 12;
+                score += document.getElementById("{{ form.third_party_score.id_for_label }}").selectedIndex;
+            }
+            else {
+                total = 9;
+            }
+            
+            score += document.getElementById("{{ form.COSI_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.impact_score.id_for_label }}").selectedIndex + document.getElementById("{{ form.urgency_score.id_for_label }}").selectedIndex;
+            
+            good = (score / total) * 100;
+            bad = 100 - good;
+            
+            if (id == 'emo_pie') {
+                document.getElementById("{{ form.emo_score.id_for_label }}").value = Math.round(good);
+            }
+        }
+       
+        if (id == 'total_pie') {
+            if (document.getElementById("{{ form.third_party.id_for_label }}").value == "Yes") {
+                total = 133;
+            }
+            else {
+                total = 127;
+            }
+            
+            good = (score / total) * 95;
+            
+            if (document.getElementById("{{ form.sale_made.id_for_label }}").value == "Yes") {
+                good += 5;
+            }
+            
+            bad = 100 - good;
+            document.getElementById("{{ form.total_score.id_for_label }}").value = Math.round(good);
+        }
+        
+        var legendPos = 'none';
+        var sliceText = '';
+        
+        if (good < 12) {
+            legendPos = 'labeled'
+            sliceText = 'none';
+        }
+        
+        var data = google.visualization.arrayToDataTable([
+            ['Task',              'Score'],
+            ['good',      Math.round(good)],
+            ['',/*bad*/   Math.round(bad)]
+        ]);
+        
+        var options = {
+            legend: {
+                position:legendPos
+            },
+            slices: {
+            0: { color: 'green' },
+            1: { color: 'red' }
+            },
+            tooltip: { trigger: 'none' },
+            pieSliceText: sliceText,
+            sliceVisibilityThreshold: 0
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById(id));
+
+        chart.draw(data, options);
+    }
+
+    function radioHandler(value, id){
+        document.getElementById(id).selectedIndex = value;
+    }
+    
+    window.onload = function () {
+        document.getElementById("{{ form.reviewer.id_for_label }}").value = "{{ user.first_name }} {{ user.last_name }}"
+        document.getElementById("{{ form.sale_made.id_for_label }}").onchange = function() {drawChart("total_pie")};
+        document.getElementById("{{ form.third_party.id_for_label }}").onchange = function() {drawChart("total_pie"); drawChart("fvt_pie"); drawChart("emo_pie");};
+        drawChart('total_pie')
+        drawChart('intro_pie')
+        drawChart('c/e_pie')
+        drawChart('fvt_pie')
+        drawChart('audio_pie')
+        drawChart('p/r_pie')
+        drawChart('comm_pie')
+        drawChart('pro_pie')
+        drawChart('emo_pie')
+        
+        document.getElementById("{{ form.open_state_score.name }}_" + document.getElementById("{{ form.open_state_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.pain_points_score.name }}_" + document.getElementById("{{ form.pain_points_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.verb_COSI_score.name }}_" + indexChecker(document.getElementById("{{ form.verb_COSI_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.sum_val_score.name }}_" + indexChecker(document.getElementById("{{ form.sum_val_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.commitment_score.name }}_" + document.getElementById("{{ form.commitment_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.last_test_score.name }}_" + document.getElementById("{{ form.last_test_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.causes_score.name }}_" + document.getElementById("{{ form.causes_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.anatomy_score.name }}_" + document.getElementById("{{ form.anatomy_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.clinical_study_score.name }}_" + indexChecker(document.getElementById("{{ form.clinical_study_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.progressive_score.name }}_" + document.getElementById("{{ form.progressive_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.maintain_score.name }}_" + document.getElementById("{{ form.maintain_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.story_score.name }}_" + document.getElementById("{{ form.story_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.otoscope_score.name }}_" + document.getElementById("{{ form.otoscope_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.FVT_exp_score.name }}_" + document.getElementById("{{ form.FVT_exp_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.FVT_results_score.name }}_" + document.getElementById("{{ form.FVT_results_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.FVT_third_score.name }}_" + document.getElementById("{{ form.FVT_third_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.explain_audio_score.name }}_" + document.getElementById("{{ form.explain_audio_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.normal_hearing_score.name }}_" + document.getElementById("{{ form.normal_hearing_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.ask_chart_score.name }}_" + indexChecker(document.getElementById("{{ form.ask_chart_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.recommit_score.name }}_" + document.getElementById("{{ form.recommit_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.bad_good_score.name }}_" + document.getElementById("{{ form.bad_good_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.notions_score.name }}_" + indexChecker(document.getElementById("{{ form.notions_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.objections_score.name }}_" + document.getElementById("{{ form.objections_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.pick_two_score.name }}_" + document.getElementById("{{ form.pick_two_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.style_cost_score.name }}_" + document.getElementById("{{ form.style_cost_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.style_fitting_score.name }}_" + document.getElementById("{{ form.style_fitting_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.backup_score.name }}_" + indexChecker(document.getElementById("{{ form.backup_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.tech_fitting_score.name }}_" + document.getElementById("{{ form.tech_fitting_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.tech_levels_score.name }}_" + document.getElementById("{{ form.tech_levels_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.appropriate_score.name }}_" + indexChecker(document.getElementById("{{ form.appropriate_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.sep_rec_score.name }}_" + indexChecker(document.getElementById("{{ form.sep_rec_score.id_for_label }}").selectedIndex)).checked = true;
+        document.getElementById("{{ form.fight_score.name }}_" + document.getElementById("{{ form.fight_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.questions_score.name }}_" + document.getElementById("{{ form.questions_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.restate_score.name }}_" + document.getElementById("{{ form.restate_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.validation_score.name }}_" + document.getElementById("{{ form.validation_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.body_score.name }}_" + document.getElementById("{{ form.body_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.tone_score.name }}_" + document.getElementById("{{ form.tone_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.words_score.name }}_" + document.getElementById("{{ form.words_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.transitions_score.name }}_" + document.getElementById("{{ form.transitions_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.involvement_score.name }}_" + document.getElementById("{{ form.involvement_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.authority_score.name }}_" + document.getElementById("{{ form.authority_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.rapport_score.name }}_" + document.getElementById("{{ form.rapport_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.cred_score.name }}_" + document.getElementById("{{ form.cred_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.COSI_score.name }}_" + document.getElementById("{{ form.COSI_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.impact_score.name }}_" + document.getElementById("{{ form.impact_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.urgency_score.name }}_" + document.getElementById("{{ form.urgency_score.id_for_label }}").selectedIndex).checked = true;
+        document.getElementById("{{ form.third_party_score.name }}_" + document.getElementById("{{ form.third_party_score.id_for_label }}").selectedIndex).checked = true;
+    }
+</script>
+{% endblock %}
+<!--style="width: 500px; height: 500px;"-->
+{% block main %}
+<main>
+    <h1>Accuquest DE Scorecard</h1>
+
+    {{ form.errors }}
+    <form action="" method="post">
+    {% csrf_token %}
+        <table>
+            <tr>
+                <td colspan="7">Place Holder!</td>
+                <td rowspan="8"><div id="total_pie"></div></td>
+            </tr>
+            <tr>
+                <td>{{ form.practitioner.label }}:</td>
+                <td>{{ form.practitioner }}</td>
+                <td colspan="4">{{ form.patient_name.label }}:</td>
+                <td>{{ form.patient_name }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td>{{ form.location.label }}:</td>
+                <td>{{ form.location }}</td>
+                <td colspan="4">{{ form.third_party.label }}:</td>
+                <td>{{ form.third_party }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td>{{ form.date.label }}:</td>
+                <td>{{ form.date }}</td>
+                <td colspan="4">{{ form.sale_made.label }}:</td>
+                <td>{{ form.sale_made }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td>{{ form.time.label }}:</td>
+                <td>{{ form.time }}</td>
+                <td colspan="4">{{ form.reason.label }}:</td>
+                <td>{{ form.reason }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Place Holder!!</td>
+                <td colspan="4">{{ form.referral.label }}:</td>
+                <td>{{ form.referral }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">{{ form.summary.label }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">{{ form.summary }}</td>
+                <td><!-- Total Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="8">DE Process</td>
+            </tr>
+            <tr>
+                <td colspan="2">Introduction</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td></td>
+                <td rowspan="10"><div id="intro_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.open_state_score.label }}<br>
+                    {{ form.open_state_score.help_text }}
+                </td>
+                <td><input type="radio" name="openStateScore" value="0" id="open_state_score_0" onchange="radioHandler(this.value, '{{ form.open_state_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="openStateScore" value="1" id="open_state_score_1" onchange="radioHandler(this.value, '{{ form.open_state_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="openStateScore" value="2" id="open_state_score_2" onchange="radioHandler(this.value, '{{ form.open_state_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="openStateScore" value="3" id="open_state_score_3" onchange="radioHandler(this.value, '{{ form.open_state_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.open_state_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">Establishment of COSI</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.pain_points_score.label }}<br>
+                    {{ form.pain_points_score.help_text }}
+                </td>
+                <td><input type="radio" name="painPointsScore" value="0" id="pain_points_score_0" onchange="radioHandler(this.value, '{{ form.pain_points_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="painPointsScore" value="1" id="pain_points_score_1" onchange="radioHandler(this.value, '{{ form.pain_points_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="painPointsScore" value="2" id="pain_points_score_2" onchange="radioHandler(this.value, '{{ form.pain_points_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="painPointsScore" value="3" id="pain_points_score_3" onchange="radioHandler(this.value, '{{ form.pain_points_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.pain_points_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.verb_COSI_score.label }}<br>
+                    {{ form.verb_COSI_score.help_text }}
+                </td>
+                <td colspan="2"><input type="radio" name="verbCOSIScore" value="0" id="verb_COSI_score_0" onchange="radioHandler(this.value, '{{ form.verb_COSI_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="verbCOSIScore" value="2" id="verb_COSI_score_2" onchange="radioHandler(this.value - 1, '{{ form.verb_COSI_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.verb_COSI_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.sum_val_score.label }}
+                </td>
+                <td colspan="2"><input type="radio" name="sumValScore" value="0" id="sum_val_score_0" onchange="radioHandler(this.value, '{{ form.sum_val_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="sumValScore" value="2" id="sum_val_score_2" onchange="radioHandler(this.value - 1, '{{ form.sum_val_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.sum_val_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.commitment_score.label }}<br>
+                    {{ form.commitment_score.help_text }}
+                </td>
+                <td><input type="radio" name="commitmentScore" value="0" id="commitment_score_0" onchange="radioHandler(this.value, '{{ form.commitment_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="commitmentScore" value="1" id="commitment_score_1" onchange="radioHandler(this.value, '{{ form.commitment_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="commitmentScore" value="2" id="commitment_score_2" onchange="radioHandler(this.value, '{{ form.commitment_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="commitmentScore" value="3" id="commitment_score_3" onchange="radioHandler(this.value, '{{ form.commitment_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.commitment_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">Case History</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.last_test_score.label }}<br>
+                    {{ form.last_test_score.help_text }}
+                </td>
+                <td><input type="radio" name="lastTestScore" value="0" id="last_test_score_0" onchange="radioHandler(this.value, '{{ form.last_test_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="lastTestScore" value="1" id="last_test_score_1" onchange="radioHandler(this.value, '{{ form.last_test_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="lastTestScore" value="2" id="last_test_score_2" onchange="radioHandler(this.value, '{{ form.last_test_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="lastTestScore" value="3" id="last_test_score_3" onchange="radioHandler(this.value, '{{ form.last_test_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.last_test_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.causes_score.label }}<br>
+                    {{ form.causes_score.help_text }}
+                </td>
+                <td><input type="radio" name="causesScore" value="0" id="causes_score_0" onchange="radioHandler(this.value, '{{ form.causes_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="causesScore" value="1" id="causes_score_1" onchange="radioHandler(this.value, '{{ form.causes_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="causesScore" value="2" id="causes_score_2" onchange="radioHandler(this.value, '{{ form.causes_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="causesScore" value="3" id="causes_score_3" onchange="radioHandler(this.value, '{{ form.causes_score.id_for_label }}'); drawChart('intro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.causes_comment }}</td>
+                <td><!-- Intro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Counseling and Education</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.anatomy_score.label }}<br>
+                    {{ form.anatomy_score.help_text }}
+                </td>
+                <td><input type="radio" name="anatomyScore" value="0" id="anatomy_score_0" onchange="radioHandler(this.value, '{{ form.anatomy_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="anatomyScore" value="1" id="anatomy_score_1" onchange="radioHandler(this.value, '{{ form.anatomy_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="anatomyScore" value="2" id="anatomy_score_2" onchange="radioHandler(this.value, '{{ form.anatomy_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="anatomyScore" value="3" id="anatomy_score_3" onchange="radioHandler(this.value, '{{ form.anatomy_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.anatomy_comment }}</td>
+                <td rowspan="6"><div id="c/e_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.clinical_study_score.label }}<br>
+                    {{ form.clinical_study_score.help_text }}
+                </td>
+                <td colspan="2"><input type="radio" name="clinicalStudyScore" value="0" id="clinical_study_score_0" onchange="radioHandler(this.value, '{{ form.clinical_study_score.id_for_label }}'); drawChart('c/e_pie') drawChart('total_pie');;" checked></td>
+                <td colspan="2"><input type="radio" name="clinicalStudyScore" value="2" id="clinical_study_score_2" onchange="radioHandler(this.value - 1, '{{ form.clinical_study_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.clinical_study_comment }}</td>
+                <td><!-- C/E Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.progressive_score.label }}<br>
+                    {{ form.progressive_score.help_text }}
+                </td>
+                <td><input type="radio" name="progressiveScore" value="0" id="progressive_score_0" onchange="radioHandler(this.value, '{{ form.progressive_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="progressiveScore" value="1" id="progressive_score_1" onchange="radioHandler(this.value, '{{ form.progressive_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="progressiveScore" value="2" id="progressive_score_2" onchange="radioHandler(this.value, '{{ form.progressive_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="progressiveScore" value="3" id="progressive_score_3" onchange="radioHandler(this.value, '{{ form.progressive_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.progressive_comment }}</td>
+                <td><!-- C/E Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.maintain_score.label }}<br>
+                    {{ form.maintain_score.help_text }}
+                </td>
+                <td><input type="radio" name="maintainScore" value="0" id="maintain_score_0" onchange="radioHandler(this.value, '{{ form.maintain_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="maintainScore" value="1" id="maintain_score_1" onchange="radioHandler(this.value, '{{ form.maintain_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="maintainScore" value="2" id="maintain_score_2" onchange="radioHandler(this.value, '{{ form.maintain_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="maintainScore" value="3" id="maintain_score_3" onchange="radioHandler(this.value, '{{ form.maintain_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.maintain_comment }}</td>
+                <td><!-- C/E Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.story_score.label }}<br>
+                    {{ form.story_score.help_text }}
+                </td>
+                <td><input type="radio" name="storyScore" value="0" id="story_score_0" onchange="radioHandler(this.value, '{{ form.story_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="storyScore" value="1" id="story_score_1" onchange="radioHandler(this.value, '{{ form.story_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="storyScore" value="2" id="story_score_2" onchange="radioHandler(this.value, '{{ form.story_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="storyScore" value="3" id="story_score_3" onchange="radioHandler(this.value, '{{ form.story_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.story_comment }}</td>
+                <td><!-- C/E Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.otoscope_score.label }}<br>
+                    {{ form.otoscope_score.help_text }}
+                </td>
+                <td><input type="radio" name="otoscopeScore" value="0" id="otoscope_score_0" onchange="radioHandler(this.value, '{{ form.otoscope_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="otoscopeScore" value="1" id="otoscope_score_1" onchange="radioHandler(this.value, '{{ form.otoscope_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="otoscopeScore" value="2" id="otoscope_score_2" onchange="radioHandler(this.value, '{{ form.otoscope_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="otoscopeScore" value="3" id="otoscope_score_3" onchange="radioHandler(this.value, '{{ form.otoscope_score.id_for_label }}'); drawChart('c/e_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.otoscope_comment }}</td>
+                <td><!-- C/E Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Familiar Voice Test</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.FVT_exp_score.label }}<br>
+                    {{ form.FVT_exp_score.help_text }}
+                </td>
+                <td><input type="radio" name="fvtExpScore" value="0" id="FVT_exp_score_0" onchange="radioHandler(this.value, '{{ form.FVT_exp_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="fvtExpScore" value="1" id="FVT_exp_score_1" onchange="radioHandler(this.value, '{{ form.FVT_exp_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtExpScore" value="2" id="FVT_exp_score_2" onchange="radioHandler(this.value, '{{ form.FVT_exp_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtExpScore" value="3" id="FVT_exp_score_3" onchange="radioHandler(this.value, '{{ form.FVT_exp_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.FVT_exp_comment }}</td>
+                <td rowspan="3"><div id="fvt_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.FVT_results_score.label }}<br>
+                    {{ form.FVT_results_score.help_text }}
+                </td>
+                <td><input type="radio" name="fvtResultsScore" value="0" id="FVT_results_score_0" onchange="radioHandler(this.value, '{{ form.FVT_results_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="fvtResultsScore" value="1" id="FVT_results_score_1" onchange="radioHandler(this.value, '{{ form.FVT_results_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtResultsScore" value="2" id="FVT_results_score_2" onchange="radioHandler(this.value, '{{ form.FVT_results_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtResultsScore" value="3" id="FVT_results_score_3" onchange="radioHandler(this.value, '{{ form.FVT_results_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.FVT_results_comment }}</td>
+                <td><!-- FVT Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.FVT_third_score.label }}<br>
+                    {{ form.FVT_third_score.help_text }}
+                </td>
+                <td><input type="radio" name="fvtThirdScore" value="0" id="FVT_third_score_0" onchange="radioHandler(this.value, '{{ form.FVT_third_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="fvtThirdScore" value="1" id="FVT_third_score_1" onchange="radioHandler(this.value, '{{ form.FVT_third_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtThirdScore" value="2" id="FVT_third_score_2" onchange="radioHandler(this.value, '{{ form.FVT_third_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fvtThirdScore" value="3" id="FVT_third_score_3" onchange="radioHandler(this.value, '{{ form.FVT_third_score.id_for_label }}'); drawChart('fvt_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.FVT_third_comment }}</td>
+                <td><!-- FVT Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Audiogram</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.explain_audio_score.label }}<br>
+                    {{ form.explain_audio_score.help_text }}
+                </td>
+                <td><input type="radio" name="explainAudioScore" value="0" id="explain_audio_score_0" onchange="radioHandler(this.value, '{{ form.explain_audio_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="explainAudioScore" value="1" id="explain_audio_score_1" onchange="radioHandler(this.value, '{{ form.explain_audio_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="explainAudioScore" value="2" id="explain_audio_score_2" onchange="radioHandler(this.value, '{{ form.explain_audio_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="explainAudioScore" value="3" id="explain_audio_score_3" onchange="radioHandler(this.value, '{{ form.explain_audio_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.explain_audio_comment }}</td>
+                <td rowspan="4"><div id="audio_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.normal_hearing_score.label }}<br>
+                    {{ form.normal_hearing_score.help_text }}
+                </td>
+                <td><input type="radio" name="normalHearingScore" value="0" id="normal_hearing_score_0" onchange="radioHandler(this.value, '{{ form.normal_hearing_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="normalHearingScore" value="1" id="normal_hearing_score_1" onchange="radioHandler(this.value, '{{ form.normal_hearing_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="normalHearingScore" value="2" id="normal_hearing_score_2" onchange="radioHandler(this.value, '{{ form.normal_hearing_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="normalHearingScore" value="3" id="normal_hearing_score_3" onchange="radioHandler(this.value, '{{ form.normal_hearing_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.normal_hearing_comment }}</td>
+                <td><!-- Audiogram Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.ask_chart_score.label }}
+                </td>
+                <td colspan="2"><input type="radio" name="askChartScore" value="0" id="ask_chart_score_0" onchange="radioHandler(this.value, '{{ form.ask_chart_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="askChartScore" value="2" id="ask_chart_score_2" onchange="radioHandler(this.value - 1, '{{ form.ask_chart_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.ask_chart_comment }}</td>
+                <td><!-- Audiogram Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.recommit_score.label }}<br>
+                    {{ form.recommit_score.help_text }}
+                </td>
+                <td><input type="radio" name="recommitScore" value="0" id="recommit_score_0" onchange="radioHandler(this.value, '{{ form.recommit_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="recommitScore" value="1" id="recommit_score_1" onchange="radioHandler(this.value, '{{ form.recommit_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="recommitScore" value="2" id="recommit_score_2" onchange="radioHandler(this.value, '{{ form.recommit_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="recommitScore" value="3" id="recommit_score_3" onchange="radioHandler(this.value, '{{ form.recommit_score.id_for_label }}'); drawChart('audio_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.recommit_comment }}</td>
+                <td><!-- Audiogram Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Prescription and Recommendation</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="7">Bad News/Good News</td>
+                <td rowspan="16"><div id="p/r_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.bad_good_score.label }}<br>
+                    {{ form.bad_good_score.help_text }}
+                </td>
+                <td><input type="radio" name="badGoodScore" value="0" id="bad_good_score_0" onchange="radioHandler(this.value, '{{ form.bad_good_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="badGoodScore" value="1" id="bad_good_score_1" onchange="radioHandler(this.value, '{{ form.bad_good_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="badGoodScore" value="2" id="bad_good_score_2" onchange="radioHandler(this.value, '{{ form.bad_good_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="badGoodScore" value="3" id="bad_good_score_3" onchange="radioHandler(this.value, '{{ form.bad_good_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.bad_good_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">Expectations</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.notions_score.label }}<br>
+                    {{ form.notions_score.help_text }}
+                </td>
+                <td colspan="2"><input type="radio" name="notionsScore" value="0" id="notions_score_0" onchange="radioHandler(this.value, '{{ form.notions_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="notionsScore" value="2" id="notions_score_2" onchange="radioHandler(this.value - 1, '{{ form.notions_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.notions_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.objections_score.label }}<br>
+                    {{ form.objections_score.help_text }}
+                </td>
+                <td><input type="radio" name="objectionsScore" value="0" id="objections_score_0" onchange="radioHandler(this.value, '{{ form.objections_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="objectionsScore" value="1" id="objections_score_1" onchange="radioHandler(this.value, '{{ form.objections_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="objectionsScore" value="2" id="objections_score_2" onchange="radioHandler(this.value, '{{ form.objections_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="objectionsScore" value="3" id="objections_score_3" onchange="radioHandler(this.value, '{{ form.objections_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.objections_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.pick_two_score.label }}<br>
+                    {{ form.pick_two_score.help_text }}
+                </td>
+                <td><input type="radio" name="pickTwoScore" value="0" id="pick_two_score_0" onchange="radioHandler(this.value, '{{ form.pick_two_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="pickTwoScore" value="1" id="pick_two_score_1" onchange="radioHandler(this.value, '{{ form.pick_two_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="pickTwoScore" value="2" id="pick_two_score_2" onchange="radioHandler(this.value, '{{ form.pick_two_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="pickTwoScore" value="3" id="pick_two_score_3" onchange="radioHandler(this.value, '{{ form.pick_two_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.pick_two_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">Style</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.style_cost_score.label }}<br>
+                    {{ form.style_cost_score.help_text }}
+                </td>
+                <td><input type="radio" name="styleCostScore" value="0" id="style_cost_score_0" onchange="radioHandler(this.value, '{{ form.style_cost_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="styleCostScore" value="1" id="style_cost_score_1" onchange="radioHandler(this.value, '{{ form.style_cost_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="styleCostScore" value="2" id="style_cost_score_2" onchange="radioHandler(this.value, '{{ form.style_cost_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="styleCostScore" value="3" id="style_cost_score_3" onchange="radioHandler(this.value, '{{ form.style_cost_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.style_cost_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.style_fitting_score.label }}<br>
+                    {{ form.style_fitting_score.help_text }}
+                </td>
+                <td><input type="radio" name="styleFittingScore" value="0" id="style_fitting_score_0" onchange="radioHandler(this.value, '{{ form.style_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="styleFittingScore" value="1" id="style_fitting_score_1" onchange="radioHandler(this.value, '{{ form.style_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="styleFittingScore" value="2" id="style_fitting_score_2" onchange="radioHandler(this.value, '{{ form.style_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="styleFittingScore" value="3" id="style_fitting_score_3" onchange="radioHandler(this.value, '{{ form.style_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.style_fitting_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.backup_score.label }}
+                </td>
+                <td colspan="2"><input type="radio" name="backupScore" value="0" id="backup_score_0" onchange="radioHandler(this.value, '{{ form.backup_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="backupScore" value="2" id="backup_score_2" onchange="radioHandler(this.value - 1, '{{ form.backup_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.backup_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="7">Technology</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.tech_fitting_score.label }}<br>
+                    {{ form.tech_fitting_score.help_text }}
+                </td>
+                <td><input type="radio" name="techFittingScore" value="0" id="tech_fitting_score_0" onchange="radioHandler(this.value, '{{ form.tech_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="techFittingScore" value="1" id="tech_fitting_score_1" onchange="radioHandler(this.value, '{{ form.tech_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="techFittingScore" value="2" id="tech_fitting_score_2" onchange="radioHandler(this.value, '{{ form.tech_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="techFittingScore" value="3" id="tech_fitting_score_3" onchange="radioHandler(this.value, '{{ form.tech_fitting_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.tech_fitting_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.tech_levels_score.label }}<br>
+                    {{ form.tech_levels_score.help_text }}
+                </td>
+                <td><input type="radio" name="techLevelsScore" value="0" id="tech_levels_score_0" onchange="radioHandler(this.value, '{{ form.tech_levels_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="techLevelsScore" value="1" id="tech_levels_score_1" onchange="radioHandler(this.value, '{{ form.tech_levels_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="techLevelsScore" value="2" id="tech_levels_score_2" onchange="radioHandler(this.value, '{{ form.tech_levels_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="techLevelsScore" value="3" id="tech_levels_score_3" onchange="radioHandler(this.value, '{{ form.tech_levels_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.tech_levels_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.appropriate_score.label }}<br>
+                    {{ form.appropriate_score.help_text }}
+                </td>
+                <td colspan="2"><input type="radio" name="appropriateScore" value="0" id="appropriate_score_0" onchange="radioHandler(this.value, '{{ form.appropriate_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="appropriateScore" value="2" id="appropriate_score_2" onchange="radioHandler(this.value - 1, '{{ form.appropriate_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.appropriate_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.sep_rec_score.label }}<br>
+                    {{ form.sep_rec_score.help_text }}
+                </td>
+                <td colspan="2"><input type="radio" name="sepRecScore" value="0" id="sep_rec_score_0" onchange="radioHandler(this.value, '{{ form.sep_rec_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td colspan="2"><input type="radio" name="sepRecScore" value="2" id="sep_rec_score_2" onchange="radioHandler(this.value - 1, '{{ form.sep_rec_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.sep_rec_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.fight_score.label }}<br>
+                    {{ form.fight_score.help_text }}
+                </td>
+                <td><input type="radio" name="fightScore" value="0" id="fight_score_0" onchange="radioHandler(this.value, '{{ form.fight_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="fightScore" value="1" id="fight_score_1" onchange="radioHandler(this.value, '{{ form.fight_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fightScore" value="2" id="fight_score_2" onchange="radioHandler(this.value, '{{ form.fight_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="fightScore" value="3" id="fight_score_3" onchange="radioHandler(this.value, '{{ form.fight_score.id_for_label }}'); drawChart('p/r_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.fight_comment }}</td>
+                <td><!-- P/R Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="8">Skills and Objectives</td>
+            </tr>
+            <tr>
+                <td colspan="2">Communication Basics</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.questions_score.label }}<br>
+                    {{ form.questions_score.help_text }}
+                </td>
+                <td><input type="radio" name="questionsScore" value="0" id="questions_score_0" onchange="radioHandler(this.value, '{{ form.questions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="questionsScore" value="1" id="questions_score_1" onchange="radioHandler(this.value, '{{ form.questions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="questionsScore" value="2" id="questions_score_2" onchange="radioHandler(this.value, '{{ form.questions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="questionsScore" value="3" id="questions_score_3" onchange="radioHandler(this.value, '{{ form.questions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.questions_comment }}</td>
+                <td rowspan="8"><div id="comm_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.restate_score.label }}<br>
+                    {{ form.restate_score.help_text }}
+                </td>
+                <td><input type="radio" name="restateScore" value="0" id="restate_score_0" onchange="radioHandler(this.value, '{{ form.restate_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="restateScore" value="1" id="restate_score_1" onchange="radioHandler(this.value, '{{ form.restate_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="restateScore" value="2" id="restate_score_2" onchange="radioHandler(this.value, '{{ form.restate_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="restateScore" value="3" id="restate_score_3" onchange="radioHandler(this.value, '{{ form.restate_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.restate_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.validation_score.label }}<br>
+                    {{ form.validation_score.help_text }}
+                </td>
+                <td><input type="radio" name="validationScore" value="0" id="validation_score_0" onchange="radioHandler(this.value, '{{ form.validation_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="validationScore" value="1" id="validation_score_1" onchange="radioHandler(this.value, '{{ form.validation_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="validationScore" value="2" id="validation_score_2" onchange="radioHandler(this.value, '{{ form.validation_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="validationScore" value="3" id="validation_score_3" onchange="radioHandler(this.value, '{{ form.validation_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.validation_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.body_score.label }}<br>
+                    {{ form.body_score.help_text }}
+                </td>
+                <td><input type="radio" name="bodyScore" value="0" id="body_score_0" onchange="radioHandler(this.value, '{{ form.body_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="bodyScore" value="1" id="body_score_1" onchange="radioHandler(this.value, '{{ form.body_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="bodyScore" value="2" id="body_score_2" onchange="radioHandler(this.value, '{{ form.body_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="bodyScore" value="3" id="body_score_3" onchange="radioHandler(this.value, '{{ form.body_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.body_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.tone_score.label }}<br>
+                    {{ form.tone_score.help_text }}
+                </td>
+                <td><input type="radio" name="toneScore" value="0" id="tone_score_0" onchange="radioHandler(this.value, '{{ form.tone_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="toneScore" value="1" id="tone_score_1" onchange="radioHandler(this.value, '{{ form.tone_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="toneScore" value="2" id="tone_score_2" onchange="radioHandler(this.value, '{{ form.tone_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="toneScore" value="3" id="tone_score_3" onchange="radioHandler(this.value, '{{ form.tone_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.tone_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.words_score.label }}<br>
+                    {{ form.words_score.help_text }}
+                </td>
+                <td><input type="radio" name="wordsScore" value="0" id="words_score_0" onchange="radioHandler(this.value, '{{ form.words_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="wordsScore" value="1" id="words_score_1" onchange="radioHandler(this.value, '{{ form.words_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="wordsScore" value="2" id="words_score_2" onchange="radioHandler(this.value, '{{ form.words_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="wordsScore" value="3" id="words_score_3" onchange="radioHandler(this.value, '{{ form.words_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.words_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.transitions_score.label }}<br>
+                    {{ form.transitions_score.help_text }}
+                </td>
+                <td><input type="radio" name="transitionsScore" value="0" id="transitions_score_0" onchange="radioHandler(this.value, '{{ form.transitions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="transitionsScore" value="1" id="transitions_score_1" onchange="radioHandler(this.value, '{{ form.transitions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="transitionsScore" value="2" id="transitions_score_2" onchange="radioHandler(this.value, '{{ form.transitions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="transitionsScore" value="3" id="transitions_score_3" onchange="radioHandler(this.value, '{{ form.transitions_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.transitions_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.involvement_score.label }}<br>
+                    {{ form.involvement_score.help_text }}
+                </td>
+                <td><input type="radio" name="involvementScore" value="0" id="involvement_score_0" onchange="radioHandler(this.value, '{{ form.involvement_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="involvementScore" value="1" id="involvement_score_1" onchange="radioHandler(this.value, '{{ form.involvement_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="involvementScore" value="2" id="involvement_score_2" onchange="radioHandler(this.value, '{{ form.involvement_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="involvementScore" value="3" id="involvement_score_3" onchange="radioHandler(this.value, '{{ form.involvement_score.id_for_label }}'); drawChart('comm_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.involvement_comment }}</td>
+                <td><!-- Comm Basics Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Professionalism</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.authority_score.label }}<br>
+                    {{ form.authority_score.help_text }}
+                </td>
+                <td><input type="radio" name="authorityScore" value="0" id="authority_score_0" onchange="radioHandler(this.value, '{{ form.authority_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="authorityScore" value="1" id="authority_score_1" onchange="radioHandler(this.value, '{{ form.authority_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="authorityScore" value="2" id="authority_score_2" onchange="radioHandler(this.value, '{{ form.authority_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="authorityScore" value="3" id="authority_score_3" onchange="radioHandler(this.value, '{{ form.authority_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.authority_comment }}</td>
+                <td rowspan="3"><div id="pro_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.rapport_score.label }}<br>
+                    {{ form.rapport_score.help_text }}
+                </td>
+                <td><input type="radio" name="rapportScore" value="0" id="rapport_score_0" onchange="radioHandler(this.value, '{{ form.rapport_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="rapportScore" value="1" id="rapport_score_1" onchange="radioHandler(this.value, '{{ form.rapport_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="rapportScore" value="2" id="rapport_score_2" onchange="radioHandler(this.value, '{{ form.rapport_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="rapportScore" value="3" id="rapport_score_3" onchange="radioHandler(this.value, '{{ form.rapport_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.rapport_comment }}</td>
+                <td><!-- Pro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.cred_score.label }}<br>
+                    {{ form.cred_score.help_text }}
+                </td>
+                <td><input type="radio" name="credScore" value="0" id="cred_score_0" onchange="radioHandler(this.value, '{{ form.cred_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="credScore" value="1" id="cred_score_1" onchange="radioHandler(this.value, '{{ form.cred_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="credScore" value="2" id="cred_score_2" onchange="radioHandler(this.value, '{{ form.cred_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="credScore" value="3" id="cred_score_3" onchange="radioHandler(this.value, '{{ form.cred_score.id_for_label }}'); drawChart('pro_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.cred_comment }}</td>
+                <td><!-- Pro Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">Emotional Connection</td>
+                <td colspan="4">Score</td>
+                <td>Comments</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.COSI_score.label }}<br>
+                    {{ form.COSI_score.help_text }}
+                </td>
+                <td><input type="radio" name="cosiScore" value="0" id="COSI_score_0" onchange="radioHandler(this.value, '{{ form.COSI_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="cosiScore" value="1" id="COSI_score_1" onchange="radioHandler(this.value, '{{ form.COSI_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="cosiScore" value="2" id="COSI_score_2" onchange="radioHandler(this.value, '{{ form.COSI_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="cosiScore" value="3" id="COSI_score_3" onchange="radioHandler(this.value, '{{ form.COSI_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.COSI_comment }}</td>
+                <td rowspan="4"><div id="emo_pie"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.impact_score.label }}<br>
+                    {{ form.impact_score.help_text }}
+                </td>
+                <td><input type="radio" name="impactScore" value="0" id="impact_score_0" onchange="radioHandler(this.value, '{{ form.impact_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="impactScore" value="1" id="impact_score_1" onchange="radioHandler(this.value, '{{ form.impact_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="impactScore" value="2" id="impact_score_2" onchange="radioHandler(this.value, '{{ form.impact_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="impactScore" value="3" id="impact_score_3" onchange="radioHandler(this.value, '{{ form.impact_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.impact_comment }}</td>
+                <td><!-- Emo Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.urgency_score.label }}<br>
+                    {{ form.urgency_score.help_text }}
+                </td>
+                <td><input type="radio" name="urgencyScore" value="0" id="urgency_score_0" onchange="radioHandler(this.value, '{{ form.urgency_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="urgencyScore" value="1" id="urgency_score_1" onchange="radioHandler(this.value, '{{ form.urgency_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="urgencyScore" value="2" id="urgency_score_2" onchange="radioHandler(this.value, '{{ form.urgency_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="urgencyScore" value="3" id="urgency_score_3" onchange="radioHandler(this.value, '{{ form.urgency_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.urgency_comment }}</td>
+                <td><!-- Emo Pie Chart --></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form.third_party_score.label }}<br>
+                    {{ form.third_party_score.help_text }}
+                </td>
+                <td><input type="radio" name="thirdPartyScore" value="0" id="third_party_score_0" onchange="radioHandler(this.value, '{{ form.third_party_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');" checked></td>
+                <td><input type="radio" name="thirdPartyScore" value="1" id="third_party_score_1" onchange="radioHandler(this.value, '{{ form.third_party_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="thirdPartyScore" value="2" id="third_party_score_2" onchange="radioHandler(this.value, '{{ form.third_party_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td><input type="radio" name="thirdPartyScore" value="3" id="third_party_score_3" onchange="radioHandler(this.value, '{{ form.third_party_score.id_for_label }}'); drawChart('emo_pie'); drawChart('total_pie');"></td>
+                <td>{{ form.third_party_comment }}</td>
+                <td><!-- Emo Pie Chart --></td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.open_state_score }}</td>
+                <td>{{ form.pain_points_score }}</td>
+                <td>{{ form.verb_COSI_score }}</td>
+                <td>{{ form.sum_val_score }}</td>
+                <td>{{ form.commitment_score }}</td>
+                <td>{{ form.last_test_score }}</td>
+                <td>{{ form.causes_score }}</td>
+                <td>{{ form.anatomy_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.clinical_study_score }}</td>
+                <td>{{ form.progressive_score }}</td>
+                <td>{{ form.maintain_score }}</td>
+                <td>{{ form.story_score }}</td>
+                <td>{{ form.otoscope_score }}</td>
+                <td>{{ form.FVT_exp_score }}</td>
+                <td>{{ form.FVT_results_score }}</td>
+                <td>{{ form.FVT_third_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.explain_audio_score }}</td>
+                <td>{{ form.normal_hearing_score }}</td>
+                <td>{{ form.ask_chart_score }}</td>
+                <td>{{ form.recommit_score }}</td>
+                <td>{{ form.bad_good_score }}</td>
+                <td>{{ form.notions_score }}</td>
+                <td>{{ form.objections_score }}</td>
+                <td>{{ form.pick_two_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.style_cost_score }}</td>
+                <td>{{ form.style_fitting_score }}</td>
+                <td>{{ form.backup_score }}</td>
+                <td>{{ form.tech_fitting_score }}</td>
+                <td>{{ form.tech_levels_score }}</td>
+                <td>{{ form.appropriate_score }}</td>
+                <td>{{ form.sep_rec_score }}</td>
+                <td>{{ form.fight_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.questions_score }}</td>
+                <td>{{ form.restate_score }}</td>
+                <td>{{ form.validation_score }}</td>
+                <td>{{ form.body_score }}</td>
+                <td>{{ form.tone_score }}</td>
+                <td>{{ form.words_score }}</td>
+                <td>{{ form.transitions_score }}</td>
+                <td>{{ form.involvement_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.authority_score }}</td>
+                <td>{{ form.rapport_score }}</td>
+                <td>{{ form.cred_score }}</td>
+                <td>{{ form.COSI_score }}</td>
+                <td>{{ form.impact_score }}</td>
+                <td>{{ form.urgency_score }}</td>
+                <td>{{ form.third_party_score }}</td>
+                <td>{{ form.total_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.reviewer }}</td>
+                <td>{{ form.intro_score }}</td>
+                <td>{{ form.ce_score }}</td>
+                <td>{{ form.fvt_score }}</td>
+                <td>{{ form.audio_score }}</td>
+                <td>{{ form.pr_score }}</td>
+                <td>{{ form.comm_score }}</td>
+                <td>{{ form.pro_score }}</td>
+            </tr>
+            <tr style="display:none">
+                <td>{{ form.emo_score }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+    
+    <a href='' onclick='window.print()'>Select "Save as PDF"</a>
+</main>
+{% endblock %}
