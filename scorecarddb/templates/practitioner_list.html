@@ -16,17 +16,25 @@
     </ol>
     
     <p>Current Employees: </p>
+    {% if currents %}
     <ol>
     {% for current in currents %}
         <li><a href="{{ current.get_absolute_url }}">{{ current.practitioner_first_name }} {{ current.practitioner_last_name }}</a></li>
     {% endfor %}
+    {% else %}
+        <li>There are currently no current employees.</li>
+    {% endif %}
     </ol>
     
     <p>Terminated Employees: </p>
+    {% if terminates %}
     <ol>
     {% for terminate in terminates %}
         <li><a href="{{ terminate.get_absolute_url }}">{{ terminate.practitioner_first_name }} {{ terminate.practitioner_last_name }}</a></li>
     {% endfor %}
+    {% else %}
+        <li>There are currently no terminated employees.</li>
+    {% endif %}
     </ol>
 </main>
 {% endblock %}
