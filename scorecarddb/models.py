@@ -109,7 +109,7 @@ class Location(models.Model):
         """
         Returns string of the full location
         """
-        return '%s, %s' % (self.location_city, self.location_state)
+        return '%s-%s' % (self.location_state, self.location_city)
 
 # Model for reasons
 class ReasonNoSale(models.Model):
